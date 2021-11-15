@@ -1,23 +1,36 @@
 {
-  "name": "aws-nodejs",
-  "version": "1.0.0",
-  "description": "Backend for online store",
-  "keywords": [
-    "aws",
-    "nodejs"
-  ],
-  "author": "Vladimir Artyukhov",
-  "license": "ISC",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "homepage": "https://github.com/ArtMan-8/aws-nodejs#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ArtMan-8/aws-nodejs.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ArtMan-8/aws-nodejs/issues"
-  }
+    "name": "aws-nodejs",
+    "version": "1.0.0",
+    "description": "Backend for online store",
+    "keywords": [
+        "aws",
+        "nodejs"
+    ],
+    "author": "Vladimir Artyukhov",
+    "license": "ISC",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "lint": "eslint \"./src/**/*.{js,ts}\"",
+        "dev": "nodemon src/index.ts"
+    },
+    "homepage": "https://github.com/ArtMan-8/aws-nodejs#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ArtMan-8/aws-nodejs.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ArtMan-8/aws-nodejs/issues"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.4.0",
+        "@typescript-eslint/parser": "^5.4.0",
+        "eslint": "^8.2.0",
+        "eslint-plugin-import": "^2.25.2",
+        "nodemon": "^2.0.15",
+        "ts-node": "^10.4.0",
+        "typescript": "^4.4.4"
+    },
+    "dependencies": {
+        "@types/node": "^16.11.7"
+    }
 }
