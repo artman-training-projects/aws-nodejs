@@ -11,7 +11,8 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "eslint \"./src/**/*.{js,ts}\"",
-        "dev": "nodemon src/index.ts"
+        "dev": "nodemon src/index.ts",
+        "task1": "nodemon src/task1.ts"
     },
     "homepage": "https://github.com/ArtMan-8/aws-nodejs#readme",
     "repository": {

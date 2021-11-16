@@ -12,7 +12,7 @@
         "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-        "no-console": "error",
+        "quotes": ["error", "double"],
         "import/no-unresolved": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off"
     }
