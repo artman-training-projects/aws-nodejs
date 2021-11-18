@@ -1,4 +1,5 @@
 import * as readline from "readline";
+import { revertString } from "./utils";
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -20,18 +21,18 @@ const repeatTask = (): Promise<boolean> =>
         });
     });
 
-const revertString = (string: string) => string.split("").reverse().join("");
-
 async function startTask1() {
     console.clear();
-    console.log("-=  Task 1  =-");
+    console.log("-=  Task 1.1  =-");
     console.log("Эта функция переворачивает строку");
     console.log("--- Start ---");
     let isRepeat = true;
 
     while (isRepeat) {
-        const string: string = await getString();
-        console.log(`Перевёрнутая строка: ${revertString(string)}`);
+        const string = await getString();
+        const revertedString = revertString(string);
+
+        console.log(`Перевёрнутая строка: ${revertedString}`);
         isRepeat = await repeatTask();
     }
 
