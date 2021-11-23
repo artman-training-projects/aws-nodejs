@@ -5,9 +5,11 @@ import { pipeline } from "stream/promises";
 import csv from "csvtojson";
 import { jsonToTxt, streamTransformCsvToTxt } from "./utils";
 
-const CSV_FOLDER_PATH = path.join(process.cwd(), "./src/csv");
+const CSV_FOLDER_PATH = path.join(__dirname, "./csv");
+
 const csvFilePath = path.join(CSV_FOLDER_PATH, "task_1-2.csv");
 const txtFilePath = path.join(CSV_FOLDER_PATH, "task_1-2.txt");
+const pseudoDBFilePath = path.join(CSV_FOLDER_PATH, "task_1-2_DB.txt");
 
 console.clear();
 console.log("-=  Task 1.2  =-");
@@ -45,6 +47,29 @@ console.log("--- Start ---\n");
             csv(),
             streamTransformCsvToTxt(),
             fsSync.createWriteStream(txtFilePath)
+        );
+
+        console.log("   Операция выполнилась успешно\n");
+    } catch (error) {
+        console.error("   2й вариант, ошибка", error);
+    }
+
+    try {
+        console.log("- 2й вариант * -");
+        console.log(
+            "Содержимое файла постепенно считывается и пишется в разные файлы, не загружаясь полностью в память"
+        );
+
+        const writeToFile = fsSync.createWriteStream(txtFilePath);
+        const writeToDB = fsSync.createWriteStream(pseudoDBFilePath);
+
+        await pipeline(
+            fsSync.createReadStream(csvFilePath),
+            csv(),
+            streamTransformCsvToTxt().on("data", (chunk) => {
+                writeToFile.write(chunk);
+                writeToDB.write(chunk);
+            })
         );
 
         console.log("   Операция выполнилась успешно\n");
