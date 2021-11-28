@@ -4,6 +4,7 @@ import * as fsSync from "fs";
 import { pipeline } from "stream/promises";
 import csv from "csvtojson";
 import { jsonToTxt, streamTransformCsvToTxt } from "./utils";
+import { Writable } from "stream";
 
 const CSV_FOLDER_PATH = path.join(__dirname, "./csv");
 
@@ -60,16 +61,40 @@ console.log("--- Start ---\n");
             "Содержимое файла постепенно считывается и пишется в разные файлы, не загружаясь полностью в память"
         );
 
-        const writeToFile = fsSync.createWriteStream(txtFilePath);
-        const writeToDB = fsSync.createWriteStream(pseudoDBFilePath);
+        const readCSV = fsSync.createReadStream(csvFilePath, {
+            highWaterMark: 5,
+        });
+
+        class CustomWriter extends Writable {
+            writableToFile = fsSync.createWriteStream(txtFilePath, {
+                highWaterMark: 2,
+            });
+            writableToDB = fsSync.createWriteStream(pseudoDBFilePath, {
+                highWaterMark: 1,
+            });
+
+            _write(chunk: Buffer, encoding: string, cb: any) {
+                const canWriteToFile = this.writableToFile.write(chunk);
+                const canWriteToDB = this.writableToDB.write(chunk);
+
+                if (!canWriteToFile) {
+                    this.writableToFile.once("drain", cb);
+                    return;
+                }
+                if (!canWriteToDB) {
+                    this.writableToDB.once("drain", cb);
+                    return;
+                }
+            }
+        }
+
+        const writeToDifferentTargets = new CustomWriter();
 
         await pipeline(
-            fsSync.createReadStream(csvFilePath),
+            readCSV,
             csv(),
-            streamTransformCsvToTxt().on("data", (chunk) => {
-                writeToFile.write(chunk);
-                writeToDB.write(chunk);
-            })
+            streamTransformCsvToTxt(),
+            writeToDifferentTargets
         );
 
         console.log("   Операция выполнилась успешно\n");
