@@ -17,6 +17,9 @@ The program consists of more than 10 step-by-step practice tasks that will resul
 <br />
 <hr />
 
-### FE - https://github.com/ArtMan-8/aws-nodejs-FE
+### Project [online-store](https://d7tm0w9e8fc2g.cloudfront.net/)
 
-### BE - https://github.com/ArtMan-8/aws-nodejs-BE
+- project https://github.com/ArtMan-8/aws-nodejs
+- FE for https://github.com/ArtMan-8/aws-nodejs-FE
+- BE part https://github.com/ArtMan-8/aws-nodejs-BE
+- Cart API part https://github.com/ArtMan-8/aws-nodejs-cart-api
